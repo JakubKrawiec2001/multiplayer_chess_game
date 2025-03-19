@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
 
-const Game = () => {
+const GameBoard = () => {
   const [game, setGame] = useState(new Chess());
   const [fen, setFen] = useState(game.fen());
   const [status, setStatus] = useState("");
@@ -56,4 +56,4 @@ const Game = () => {
   );
 };
 
-export default Game;
+export default GameBoard;
