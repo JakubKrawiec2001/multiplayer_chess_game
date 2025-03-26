@@ -1,1 +1,142 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;700;900&display=swap");
+
 @import "tailwindcss";
+
+@theme {
+  --color-main-burgundy: #bc3f66;
+  --color-main-purple: #882d89;
+  --color-main-dark-blue: #301a6b;
+}
+
+@layer base {
+  body {
+    font-family: "Nunito", sans-serif;
+  }
+}
+
+.grid-bg {
+  position: relative;
+  height: 100%;
+}
+
+.grid-bg::before {
+  content: "";
+  background-image: url("./assets/grid-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+
+.gradient-bg {
+  background: linear-gradient(
+    180deg,
+    rgba(136, 45, 137, 1) 0%,
+    rgba(188, 63, 102, 1) 100%
+  );
+}
+
+.outlined-text {
+  text-shadow: rgb(23, 5, 87) 4px 4px 1px,
+    rgb(23, 5, 87) 2.83487px 0.981584px 0px,
+    rgb(23, 5, 87) 2.35766px 1.85511px 0px,
+    rgb(23, 5, 87) 1.62091px 2.52441px 0px,
+    rgb(23, 5, 87) 0.705713px 2.91581px 0px,
+    rgb(23, 5, 87) -0.287171px 2.98622px 0px,
+    rgb(23, 5, 87) -1.24844px 2.72789px 0px,
+    rgb(23, 5, 87) -2.07227px 2.16926px 0px,
+    rgb(23, 5, 87) -2.66798px 1.37182px 0px,
+    rgb(23, 5, 87) -2.96998px 0.42336px 0px,
+    rgb(23, 5, 87) -2.94502px -0.571704px 0px,
+    rgb(23, 5, 87) -2.59586px -1.50383px 0px,
+    rgb(23, 5, 87) -1.96093px -2.27041px 0px,
+    rgb(23, 5, 87) -1.11013px -2.78704px 0px,
+    rgb(23, 5, 87) -0.137119px -2.99686px 0px,
+    rgb(23, 5, 87) 0.850987px -2.87677px 0px,
+    rgb(23, 5, 87) 1.74541px -2.43999px 0px,
+    rgb(23, 5, 87) 2.44769px -1.73459px 0px,
+    rgb(23, 5, 87) 2.88051px -0.838247px 0px;
+}
+
+.custom-shadow {
+  filter: drop-shadow(4px 4px 1px rgb(23, 5, 87));
+}
+
+.dark-btn-shadow {
+  box-shadow: 0px 6px 0px 0px #301a6b;
+}
+.light-btn-shadow {
+  box-shadow: 0px 3px 0px 0px #ffffff;
+}
+
+.loader {
+  height: 100px;
+  aspect-ratio: 2;
+  border-bottom: 3px solid #0000;
+  background: linear-gradient(90deg, #524656 50%, #0000 0) -25% 100%/50% 3px repeat-x
+    border-box;
+  position: relative;
+  animation: l3-0 0.75s linear infinite;
+}
+.loader:before {
+  content: "";
+  position: absolute;
+  inset: auto 42.5% 0;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: pink;
+  animation: l3-1 0.75s cubic-bezier(0, 900, 1, 900) infinite;
+}
+
+.loader-text {
+  font-weight: bold;
+  font-family: sans-serif;
+  font-size: 30px;
+  animation: l1 1s linear infinite alternate;
+  color: white;
+}
+
+.loader-text:before {
+  content: "Loading...";
+}
+
+/* globals.css */
+.custom-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scroll::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  margin: 1em;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.5); /* kolor "uchwytu" scrola */
+  border-radius: 2em;
+}
+
+@keyframes l3-0 {
+  to {
+    background-position: -125% 100%;
+  }
+}
+
+@keyframes l3-1 {
+  0%,
+  2% {
+    bottom: 0%;
+  }
+  98%,
+  to {
+    bottom: 0.1%;
+  }
+}
+
+@keyframes l1 {
+  to {
+    opacity: 0;
+  }
+}
