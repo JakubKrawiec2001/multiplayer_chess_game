@@ -6,6 +6,7 @@ import { useUserStore } from "../stores/UserStore";
 import { useGameStore } from "../stores/GameStore";
 import { FaUser } from "react-icons/fa";
 import GameStatus from "./GameStatus";
+import { useNavigate } from "react-router-dom";
 
 const GameBoard = ({ id }) => {
   const game = useMemo(() => new Chess(), []);
@@ -13,24 +14,16 @@ const GameBoard = ({ id }) => {
   const [selectedSquare, setSelectedSquare] = useState(null);
   const [gameData, setGameData] = useState(null);
   const username = useUserStore((state) => state.username);
-  const logout = useUserStore((state) => state.logout);
-  const currentGameStatus = useGameStore((state) => state.currentGameStatus);
-  const setCurrentGameStatus = useGameStore(
-    (state) => state.setCurrentGameStatus
-  );
   const whitePlayer = useGameStore((state) => state.whitePlayer);
   const blackPlayer = useGameStore((state) => state.blackPlayer);
   const setWhitePlayer = useGameStore((state) => state.setWhitePlayer);
   const setBlackPlayer = useGameStore((state) => state.setBlackPlayer);
-  const gameId = useGameStore((state) => state.gameId);
   const setGameId = useGameStore((state) => state.setGameId);
+  const logout = useUserStore((state) => state.logout);
   const resetCurrentGame = useGameStore((state) => state.resetCurrentGame);
+  const navigate = useNavigate();
 
   const makeMove = async (move) => {
-    if (game.isGameOver()) {
-      handleIsGameOver();
-      return;
-    }
     try {
       const currentTurn = game.turn();
 
@@ -57,6 +50,10 @@ const GameBoard = ({ id }) => {
 
       if (error) {
         console.error("Błąd przy aktualizacji ruchów:", error);
+      }
+      if (game.isGameOver()) {
+        await handleIsGameOver();
+        return;
       }
 
       return result;
@@ -107,7 +104,6 @@ const GameBoard = ({ id }) => {
   const resetGame = async () => {
     game.reset();
     setFen(game.fen());
-    setCurrentGameStatus("start");
     setSelectedSquare(null);
 
     const { error } = await supabase
@@ -116,23 +112,41 @@ const GameBoard = ({ id }) => {
       .eq("game_id", id);
 
     if (error) {
-      console.log("Błąd przy resetowaniu gry w bazie:", error);
+      console.log("Reset error:", error);
     }
   };
 
-  const handleIsGameOver = () => {
+  const handleIsGameOver = async () => {
     const isGameOver = game.isGameOver();
     if (isGameOver) {
-      resetCurrentGame();
-      logout();
       if (game.isCheckmate()) {
-        setCurrentGameStatus(
-          `Checkmate! ${game.turn() === "w" ? "black" : "white"} wins!`
-        );
+        const winner = game.turn() === "w" ? "Black" : "White";
+        await supabase
+          .from("game")
+          .update({
+            finished: true,
+            winner,
+            gameStatus: "Checkmate",
+          })
+          .eq("game_id", id);
       } else if (game.isDraw()) {
-        setCurrentGameStatus("Draw");
+        await supabase
+          .from("game")
+          .update({
+            finished: true,
+            winner: null,
+            gameStatus: "Draw",
+          })
+          .eq("game_id", id);
       } else {
-        setCurrentGameStatus("Game over");
+        await supabase
+          .from("game")
+          .update({
+            finished: true,
+            winner: null,
+            gameStatus: "Game Over",
+          })
+          .eq("game_id", id);
       }
     }
   };
@@ -145,8 +159,14 @@ const GameBoard = ({ id }) => {
         .eq("game_id", id)
         .single();
 
+      if (!data) {
+        resetCurrentGame();
+        logout();
+        navigate("/");
+      }
+
       if (error) {
-        console.log("Błąd przy pobieraniu gry:", error);
+        console.log("Error thie fetching game:", error);
       } else {
         setGameData(data);
 
@@ -161,7 +181,7 @@ const GameBoard = ({ id }) => {
     };
 
     fetchGame();
-  }, [id, game]);
+  }, [id, game, navigate, logout, resetCurrentGame]);
 
   useEffect(() => {
     const channel = supabase
@@ -266,8 +286,8 @@ const GameBoard = ({ id }) => {
           </button>
         </div>
       </div>
-      {gameId === null && currentGameStatus !== "start" && (
-        <GameStatus gameStatus={currentGameStatus} />
+      {gameData?.finished && (
+        <GameStatus winner={gameData.winner} gameStatus={gameData.gameStatus} />
       )}
     </div>
   );

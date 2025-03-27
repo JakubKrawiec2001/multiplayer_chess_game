@@ -7,18 +7,15 @@ export const useGameStore = create(
       gameId: null,
       whitePlayer: "",
       blackPlayer: "",
-      currentGameStatus: "start",
       setGameId: (gameId) => set({ gameId }),
       setWhitePlayer: (player) => set({ whitePlayer: player }),
       setBlackPlayer: (player) => set({ blackPlayer: player }),
-      setCurrentGameStatus: (status) => set({ currentGameStatus: status }),
 
       resetCurrentGame: () =>
         set({
           gameId: null,
           whitePlayer: "",
           blackPlayer: "",
-          currentGameStatus: "",
         }),
     }),
     {
