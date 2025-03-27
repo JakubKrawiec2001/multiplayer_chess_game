@@ -19,7 +19,7 @@ const GameId = ({ gameId }) => {
   return (
     <div
       onClick={copyToClipboard}
-      className="relative cursor-pointer flex items-center gap-2 bg-black/20 backdrop-blur-[2px] p-3 shadow-md rounded-2xl mt-4 text-white"
+      className="relative cursor-pointer flex items-center gap-2 bg-black/20 backdrop-blur-[2px] p-3 shadow-md rounded-2xl mt-4 text-white mb-4 md:mb-0"
     >
       <div className="">
         <p className="font-black">Game ID</p>

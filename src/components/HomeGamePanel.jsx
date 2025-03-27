@@ -123,30 +123,27 @@ const HomeGamePanel = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center gap-4 z-10">
-        <img src={logo} alt="" className="w-[60px] custom-shadow" />
-        <h1 className="text-5xl mb-4 text-center text-white font-black outlined-text leading-12 tracking-wide">
+      <div className="flex flex-col items-center gap-3 md:gap-4 z-10">
+        <img src={logo} alt="" className="w-[40px] md:w-[60px] custom-shadow" />
+        <h1 className="text-3xl md:text-5xl mb-4 text-center text-white font-black outlined-text leading-7 md:leading-12 tracking-wide">
           LET'S PLAY <span className="block">CHESS ONLINE</span>
         </h1>
       </div>
-      <div className="bg-black/20 backdrop-blur-[2px] p-10 shadow-md z-10 rounded-2xl">
+      <div className="bg-black/20 backdrop-blur-[2px] p-5 md:p-10 shadow-md z-10 rounded-2xl mt-2">
         <input
           type="text"
           placeholder="Nickname"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="text-2xl w-full bg-white/30 border-[2px] border-white p-2 rounded-lg font-bold placeholder-white outline-none caret-main-burgundy text-white"
+          className="text-lg md:text-2xl w-full bg-white/30 border-[2px] border-white p-2 rounded-lg font-bold placeholder-white outline-none caret-main-burgundy text-white"
         />
-        <div className="flex gap-6 mt-6">
-          <button
-            onClick={handleCreateGame}
-            className="bg-white text-main-dark-blue text-2xl font-black uppercase px-3 py-3 rounded-lg dark-btn-shadow cursor-pointer hover:bg-slate-200 transition-colors"
-          >
+        <div className="flex flex-col md:flex-row gap-4 md:gap-6 mt-6">
+          <button onClick={handleCreateGame} className="main-white-btn">
             Create Game
           </button>
           <button
             onClick={() => setShowJoinInput(!showJoinInput)}
-            className="bg-main-dark-blue text-white text-2xl font-black uppercase px-3 py-3 rounded-lg light-btn-shadow cursor-pointer hover:bg-blue-950 transition-colors"
+            className="main-dark-btn"
           >
             Join Game
           </button>

@@ -242,17 +242,17 @@ const GameBoard = ({ id }) => {
   const playerOrientation =
     username === whitePlayer ? whitePlayer : blackPlayer;
   return (
-    <div className="flex flex-col items-center justify-center w-[60%]">
+    <div className="flex flex-col items-center justify-center md:w-[60%]">
       <div className="w-full">
         <div className="flex items-center gap-2 mb-3">
           <FaUser
-            className={`p-1 text-3xl rounded-md ${
+            className={`p-1 text-xl md:text-3xl rounded-sm md:rounded-md ${
               playerOrientation === blackPlayer
                 ? "bg-white text-main-burgundy"
                 : "bg-main-dark-blue text-white"
             }`}
           />
-          <p className="text-xl text-white font-medium">
+          <p className="text-lg md:text-xl text-white font-medium">
             {playerOrientation === whitePlayer ? blackPlayer : whitePlayer}
           </p>
         </div>
@@ -268,18 +268,18 @@ const GameBoard = ({ id }) => {
         <div className="flex justify-between items-center mt-3">
           <div className="flex items-center gap-2">
             <FaUser
-              className={`p-1 text-3xl rounded-md ${
+              className={`p-1 text-xl md:text-3xl rounded-sm md:rounded-md ${
                 playerOrientation === whitePlayer
                   ? "bg-white text-main-burgundy"
                   : "bg-main-dark-blue text-white"
               }`}
             />
-            <p className="text-xl text-white font-medium">
+            <p className="text-lg md:text-xl text-white font-medium">
               {playerOrientation}
             </p>
           </div>
           <button
-            className="bg-white text-main-dark-blue text-base font-black uppercase p-2 rounded-lg dark-btn-shadow cursor-pointer hover:bg-slate-200 transition-colors z-10"
+            className="main-white-btn text-sm md:text-base z-10 p-2"
             onClick={resetGame}
           >
             Reset Game
