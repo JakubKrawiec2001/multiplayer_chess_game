@@ -1,10 +1,20 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import GameBoard from "../components/GameBoard";
 import MovesPanel from "../components/MovesPanel";
 import GameId from "../components/GameId";
+import { useGameStore } from "../stores/GameStore";
+import { useEffect } from "react";
 
 function Game() {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const gameId = useGameStore((state) => state.gameId);
+
+  useEffect(() => {
+    if (!gameId) {
+      navigate(`/`);
+    }
+  }, [gameId, navigate]);
 
   return (
     <div className="gradient-bg grid-bg">

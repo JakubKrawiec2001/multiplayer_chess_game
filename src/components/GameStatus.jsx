@@ -1,17 +1,11 @@
-import React, { useState } from "react";
-import { useUserStore } from "../stores/UserStore";
 import { useGameStore } from "../stores/GameStore";
-import { useNavigate } from "react-router-dom";
-import supabase from "../supabase/supabase";
-import { toast } from "react-toastify";
 import Loading from "./Loading";
+import useCloseCurrentGame from "../hooks/useCloseCurrentGame";
 
 const GameStatus = ({ winner, gameStatus }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const logout = useUserStore((state) => state.logout);
-  const resetCurrentGame = useGameStore((state) => state.resetCurrentGame);
   const gameId = useGameStore((state) => state.gameId);
-  const navigate = useNavigate();
+  const { closeCurrentGame, isLoading } = useCloseCurrentGame();
+
   let message = "";
 
   if (gameStatus === "Checkmate") {
@@ -22,27 +16,10 @@ const GameStatus = ({ winner, gameStatus }) => {
     message = "Game Over";
   }
 
-  const handleCloseCurrentGame = async () => {
-    setIsLoading(true);
-    try {
-      const { error } = await supabase
-        .from("game")
-        .delete()
-        .eq("game_id", gameId);
-
-      if (error) {
-        toast(`Error while ending the game: ${error}`);
-      } else {
-        resetCurrentGame();
-        logout();
-        navigate("/");
-      }
-    } catch (error) {
-      console.error("Game error:", error);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleCloseCurrentGame = () => {
+    closeCurrentGame(gameId);
   };
+
   return (
     <div className="fixed inset-0 bg-black/70 flex flex-col gap-10 items-center justify-center z-[999]">
       <p className="text-white font-black text-5xl">{message}</p>

@@ -124,7 +124,6 @@ const GameBoard = ({ id }) => {
         await supabase
           .from("game")
           .update({
-            finished: true,
             winner,
             gameStatus: "Checkmate",
           })
@@ -133,7 +132,6 @@ const GameBoard = ({ id }) => {
         await supabase
           .from("game")
           .update({
-            finished: true,
             winner: null,
             gameStatus: "Draw",
           })
@@ -142,7 +140,6 @@ const GameBoard = ({ id }) => {
         await supabase
           .from("game")
           .update({
-            finished: true,
             winner: null,
             gameStatus: "Game Over",
           })
@@ -158,7 +155,7 @@ const GameBoard = ({ id }) => {
         .select("*")
         .eq("game_id", id)
         .single();
-
+      console.log(data);
       if (!data) {
         resetCurrentGame();
         logout();
@@ -207,6 +204,12 @@ const GameBoard = ({ id }) => {
             setBlackPlayer(updatedGame.black_player);
           }
 
+          if (updatedGame.finished === true) {
+            resetCurrentGame();
+            logout();
+            navigate("/");
+          }
+
           game.reset();
           if (updatedGame.moves && updatedGame.moves.length > 0) {
             updatedGame.moves.forEach((sanMove) => {
@@ -229,6 +232,9 @@ const GameBoard = ({ id }) => {
     setWhitePlayer,
     setBlackPlayer,
     setGameId,
+    resetCurrentGame,
+    logout,
+    navigate,
   ]);
 
   const customSquareStyles = selectedSquare
@@ -286,7 +292,7 @@ const GameBoard = ({ id }) => {
           </button>
         </div>
       </div>
-      {gameData?.finished && (
+      {gameData?.gameStatus && (
         <GameStatus winner={gameData.winner} gameStatus={gameData.gameStatus} />
       )}
     </div>

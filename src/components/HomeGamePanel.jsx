@@ -86,6 +86,7 @@ const HomeGamePanel = () => {
         setBlackPlayer(name);
         setWhitePlayer(data.white_player);
         setUsername(name);
+        setGameId(joinGameId);
         if (updateError) {
           console.log("Błąd przy dołączaniu do gry:", updateError);
           setLoading(false);
