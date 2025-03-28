@@ -7,6 +7,8 @@ import { useGameStore } from "../stores/GameStore";
 import { FaUser } from "react-icons/fa";
 import GameStatus from "./GameStatus";
 import { useNavigate } from "react-router-dom";
+import EndGameButton from "./EndGameButton";
+import { toast } from "react-toastify";
 
 const GameBoard = ({ id }) => {
   const game = useMemo(() => new Chess(), []);
@@ -208,6 +210,7 @@ const GameBoard = ({ id }) => {
             resetCurrentGame();
             logout();
             navigate("/");
+            toast("The game is over. One player has abandoned the game");
           }
 
           game.reset();
@@ -271,7 +274,7 @@ const GameBoard = ({ id }) => {
           customSquareStyles={customSquareStyles}
           boardOrientation={username === whitePlayer ? "white" : "black"}
         />
-        <div className="flex justify-between items-center mt-3">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 md:gap-0 mt-3">
           <div className="flex items-center gap-2">
             <FaUser
               className={`p-1 text-xl md:text-3xl rounded-sm md:rounded-md ${
@@ -284,12 +287,15 @@ const GameBoard = ({ id }) => {
               {playerOrientation}
             </p>
           </div>
-          <button
-            className="main-white-btn text-sm md:text-base z-10 p-2"
-            onClick={resetGame}
-          >
-            Reset Game
-          </button>
+          <div className="flex gap-4">
+            <EndGameButton />
+            <button
+              className="main-white-btn text-sm md:text-base z-10 p-2"
+              onClick={resetGame}
+            >
+              Reset Game
+            </button>
+          </div>
         </div>
       </div>
       {gameData?.gameStatus && (
