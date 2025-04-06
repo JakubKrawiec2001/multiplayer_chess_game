@@ -162,6 +162,16 @@ const GameBoard = ({ id }) => {
           .eq("game_id", id)
           .single();
 
+        if (data.finished === true) {
+          resetCurrentGame();
+          logout();
+          navigate("/");
+          toast(
+            "The game has been finished. Create a new game or join an existing one"
+          );
+          return;
+        }
+
         if (error) {
           console.log("Error fetching game:", error);
         } else {
@@ -183,7 +193,7 @@ const GameBoard = ({ id }) => {
     };
 
     fetchGame();
-  }, [id, game]);
+  }, [id, game, navigate, logout, resetCurrentGame]);
 
   useEffect(() => {
     const channel = supabase

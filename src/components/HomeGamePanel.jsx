@@ -28,6 +28,12 @@ const HomeGamePanel = () => {
       setLoading(false);
       return;
     }
+    if (name.length < 4 || name.length > 10) {
+      toast("Nickname must be between 4 and 10 characters long!");
+      setLoading(false);
+      return;
+    }
+
     try {
       const gameId = uuidv4();
 
@@ -71,6 +77,11 @@ const HomeGamePanel = () => {
     }
     if (!joinGameId) {
       toast("Enter GameID");
+      setLoading(false);
+      return;
+    }
+    if (name.length < 4 || name.length > 10) {
+      toast("Nickname must be between 4 and 10 characters long!");
       setLoading(false);
       return;
     }
@@ -151,6 +162,9 @@ const HomeGamePanel = () => {
           placeholder="Nickname"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          required
+          maxLength={10}
+          min={4}
           className="text-lg md:text-2xl w-full bg-white/30 border-[2px] border-white p-2 rounded-lg font-bold placeholder-white outline-none caret-main-burgundy text-white"
         />
         <div className="flex flex-col md:flex-row gap-4 md:gap-6 mt-6">
