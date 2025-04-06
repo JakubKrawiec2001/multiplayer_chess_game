@@ -1,20 +1,22 @@
 import { useGameStore } from "../stores/GameStore";
 import Loading from "./Loading";
 import useCloseCurrentGame from "../hooks/useCloseCurrentGame";
+import { useEffect, useState } from "react";
 
 const GameStatus = ({ winner, gameStatus }) => {
   const gameId = useGameStore((state) => state.gameId);
   const { closeCurrentGame, isLoading } = useCloseCurrentGame();
+  const [message, setMessage] = useState("");
 
-  let message = "";
-
-  if (gameStatus === "Checkmate") {
-    message = `Checkmate! ${winner} wins!`;
-  } else if (gameStatus === "Draw") {
-    message = "It's a draw!";
-  } else {
-    message = "Game Over";
-  }
+  useEffect(() => {
+    if (gameStatus === "Checkmate") {
+      setMessage(`Checkmate! ${winner} wins!`);
+    } else if (gameStatus === "Draw") {
+      setMessage("It's a draw!");
+    } else {
+      setMessage("Game Over");
+    }
+  }, [gameStatus, winner]);
 
   const handleCloseCurrentGame = () => {
     closeCurrentGame(gameId);

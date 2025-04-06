@@ -32,10 +32,8 @@ const GameBoard = ({ id }) => {
       const currentTurn = game.turn();
 
       if (currentTurn === "w" && username !== whitePlayer) {
-        console.log("❌ Nie jest twoja kolej czarny");
         return null;
       } else if (currentTurn === "b" && username !== blackPlayer) {
-        console.log("❌ Nie jest twoja kolej biały");
         return null;
       }
       const result = game.move(move);
@@ -53,7 +51,7 @@ const GameBoard = ({ id }) => {
         .eq("game_id", id);
 
       if (error) {
-        console.error("Błąd przy aktualizacji ruchów:", error);
+        console.error("Error updating moves", error);
       }
       if (game.isGameOver()) {
         await handleIsGameOver();
@@ -62,7 +60,7 @@ const GameBoard = ({ id }) => {
 
       return result;
     } catch (error) {
-      console.log("Błędny ruch z funkcji makeMove:", error);
+      console.log(error);
       return null;
     }
   };
@@ -76,7 +74,7 @@ const GameBoard = ({ id }) => {
 
     const move = await makeMove(moveData);
     if (!move) {
-      console.log("Nieprawidłowy ruch (drag-and-drop)");
+      toast("Invalid move. Try again");
     }
     return true;
   };
@@ -97,7 +95,7 @@ const GameBoard = ({ id }) => {
     setSelectedSquare(null);
 
     if (!move) {
-      console.log("Nieprawidłowy ruch (click-to-move)");
+      toast("Invalid move. Try again");
     }
   };
 
