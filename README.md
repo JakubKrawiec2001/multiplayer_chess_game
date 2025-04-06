@@ -2,7 +2,7 @@
 
 <br />
 
-> # [Live Demo](https://chessgame-io-multiplayer.vercel.app/)  
+> # [Play The Game](https://chessgame-io-multiplayer.vercel.app/)  
 
 <br />
 
