@@ -1,18 +1,15 @@
 <h1 align="center" style="font-size: 50px">Chess.io - real-time online chess</h1>
 <hr>
 
-<br />
-
 > # [Live Demo](https://chessgame-io-multiplayer.vercel.app/)  
 
 <br />
 
 ## Introduction
 
-Chess.io is a modern browser game that allows you to compete with other players in real time. 
+Chess.io is a modern browser game that allows you to compete with other players in real time. The entire game runs in real time thanks to the use of Supabase Realtime, which is based on WebSockets and provides instant data synchronization between players.
 
 <br/>
-The entire game runs in real time thanks to the use of Supabase Realtime, which is based on WebSockets and provides instant data synchronization between players.
 
 <p>Tech Stack:</p>
 <ul>
