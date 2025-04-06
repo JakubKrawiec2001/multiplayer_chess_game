@@ -30,21 +30,32 @@ const HomeGamePanel = () => {
     }
     try {
       const gameId = uuidv4();
-      setWhitePlayer(name);
-      setUsername(name);
-      setGameId(gameId);
-      await supabase.from("game").insert([
-        {
-          game_id: gameId,
-          white_player: name,
-          black_player: "",
-          moves: [],
-        },
-      ]);
 
-      navigate(`/game/${gameId}`);
+      const { data, error } = await supabase
+        .from("game")
+        .insert([
+          {
+            game_id: gameId,
+            white_player: name,
+            black_player: "",
+            moves: [],
+          },
+        ])
+        .select();
+
+      if (error) {
+        toast("Error creating game");
+        return;
+      }
+      if (data) {
+        setBlackPlayer("");
+        setWhitePlayer(name);
+        setUsername(name);
+        setGameId(gameId);
+        navigate(`/game/${gameId}`);
+      }
     } catch (error) {
-      console.log("Błąd przy tworzeniu gry:", error);
+      console.log("Error creating game:", error);
     } finally {
       setLoading(false);
     }
@@ -72,30 +83,34 @@ const HomeGamePanel = () => {
         .single();
 
       if (error || !data) {
-        console.log("Gra o podanym ID nie istnieje");
-        setLoading(false);
+        toast("Game with this ID does not exist");
         return;
       }
 
-      if (!data.black_player) {
+      if (data.black_player && data.white_player) {
+        toast("Game is already full");
+        return;
+      }
+
+      if (data || !data.black_player) {
         const { error: updateError } = await supabase
           .from("game")
           .update({ black_player: name })
           .eq("game_id", joinGameId);
 
+        if (updateError) {
+          toast("Error joining game");
+          return;
+        }
+
         setBlackPlayer(name);
         setWhitePlayer(data.white_player);
         setUsername(name);
         setGameId(joinGameId);
-        if (updateError) {
-          console.log("Błąd przy dołączaniu do gry:", updateError);
-          setLoading(false);
-          return;
-        }
       }
       navigate(`/game/${joinGameId}`);
     } catch (err) {
-      console.log("Błąd przy dołączaniu do gry:", err);
+      console.log("Error joining game:", err);
     } finally {
       setLoading(false);
     }

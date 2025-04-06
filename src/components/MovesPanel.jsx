@@ -58,16 +58,15 @@ const MovesPanel = ({ id }) => {
     return chunks;
   }, [moves]);
 
-  if (isLoading) {
-    return <Loading />;
-  }
   return (
     <>
       <h2 className="text-xl md:text-2xl mb-2 text-white font-black outlined-text">
         Moving board
       </h2>
       <div className="bg-black/20 backdrop-blur-[2px] p-6 shadow-md rounded-2xl h-[250px] lg:h-[500px] overflow-auto flex flex-col flex-wrap gap-2 gap-x-12 custom-scroll">
-        {moves.length === 0 ? (
+        {isLoading ? (
+          <Loading />
+        ) : moves.length === 0 ? (
           <p className="text-slate-300 font-bold z-10">
             Make your first move...
           </p>

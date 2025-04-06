@@ -9,10 +9,12 @@ import GameStatus from "./GameStatus";
 import { useNavigate } from "react-router-dom";
 import EndGameButton from "./EndGameButton";
 import { toast } from "react-toastify";
+import Loading from "./Loading";
 
 const GameBoard = ({ id }) => {
   const game = useMemo(() => new Chess(), []);
   const [fen, setFen] = useState(game.fen());
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedSquare, setSelectedSquare] = useState(null);
   const [gameData, setGameData] = useState(null);
   const username = useUserStore((state) => state.username);
@@ -152,35 +154,36 @@ const GameBoard = ({ id }) => {
 
   useEffect(() => {
     const fetchGame = async () => {
-      const { data, error } = await supabase
-        .from("game")
-        .select("*")
-        .eq("game_id", id)
-        .single();
-      console.log(data);
-      if (!data) {
-        resetCurrentGame();
-        logout();
-        navigate("/");
-      }
+      setIsLoading(true);
+      try {
+        const { data, error } = await supabase
+          .from("game")
+          .select("*")
+          .eq("game_id", id)
+          .single();
 
-      if (error) {
-        console.log("Error thie fetching game:", error);
-      } else {
-        setGameData(data);
+        if (error) {
+          console.log("Error fetching game:", error);
+        } else {
+          setGameData(data);
 
-        if (data.moves && data.moves.length > 0) {
-          game.reset();
-          data.moves.forEach((sanMove) => {
-            game.move(sanMove);
-          });
-          setFen(game.fen());
+          if (data.moves && data.moves.length > 0) {
+            game.reset();
+            data.moves.forEach((sanMove) => {
+              game.move(sanMove);
+            });
+            setFen(game.fen());
+          }
         }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchGame();
-  }, [id, game, navigate, logout, resetCurrentGame]);
+  }, [id, game]);
 
   useEffect(() => {
     const channel = supabase
@@ -250,6 +253,10 @@ const GameBoard = ({ id }) => {
 
   const playerOrientation =
     username === whitePlayer ? whitePlayer : blackPlayer;
+
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <div className="flex flex-col items-center justify-center md:w-[60%]">
       <div className="w-full">
