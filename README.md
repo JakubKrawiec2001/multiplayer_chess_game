@@ -1,12 +1,34 @@
-# React + Vite
+<h1 align="center" style="font-size: 50px">Chess.io - real-time online chess</h1>
+<hr>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<br />
 
-Currently, two official plugins are available:
+> # [Live Demo](https://chessgame-io-multiplayer.vercel.app/)  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<br />
 
-## Expanding the ESLint configuration
+## Introduction
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Chess.io is a modern browser game that allows you to compete with other players in real time. 
+
+<br/>
+The entire game runs in real time thanks to the use of Supabase Realtime, which is based on WebSockets and provides instant data synchronization between players.
+
+<p>Tech Stack:</p>
+<ul>
+  <li>React.js</li>
+  <li>Supabase</li>
+  <li>Javascript</li>
+  <li>TailwindCSS</li>
+  <li>Zustand</li>
+</ul>
+
+<br />
+
+## Mockup
+
+<br />
+
+<img src="./public/mockup-1.png">
+<img src="./public/mockup-2.png">
+
