@@ -1,6 +1,6 @@
 <h1 align="center" style="font-size: 50px">Chess.io - real-time online chess</h1>
-<hr>
 
+<br />
 > # [Live Demo](https://chessgame-io-multiplayer.vercel.app/)  
 
 <br />
